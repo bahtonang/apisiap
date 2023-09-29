@@ -15,10 +15,9 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
  * Router Setup
  * --------------------------------------------------------------------
  */
-
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
-$routes->setDefaultMethod('index');
+$routes->setDefaultController('Api');
+$routes->setDefaultMethod('getVersi');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(true);
@@ -32,6 +31,7 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index',['filter'=>'otentikasi']);
+#$routes->get('/', 'Home::index',['otentikasi']);
 
 /**
  * --------------------------------------------------------------------
@@ -52,11 +52,12 @@ if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
 }
 
 //$routes->post('login', 'Otentikasi::getPersonal');
-
+$routes->get('mekanik/(:any)/(:any)','Api::getMekanik/$1/$2');
 $routes->get('personal/(:any)','Api::getPersonal/$1/$2');
 $routes->get('lokasi/(:any)','Api::getLokasi/$1');
 
 /*
+
 $routes->get('tcard/(:any)/(:num)/(:num)', 'Api::getTcard/$1/$2/$3');
 $routes->get('absen/(:any)/(:num)', 'Api::getAbsen/$1/$2');
 $routes->get('gajiop/(:any)/(:any)', 'Api::getGajiop/$1/$2');
@@ -66,7 +67,6 @@ $routes->get('info', 'Api::getInfo');
 $routes->get('infostaf', 'Api::getInfostaf');
 $routes->get('cutistaf/(:any)', 'Api::getCutistaf/$1');
 $routes->get('saran/(:any)', 'Api::getSaran/$1');
-
 $routes->put('passwd', 'Api::updatePassword');
 $routes->post('kirimsaran', 'Api::KirimSaran');
 $routes->post('masuk', 'Api::absenMasuk');

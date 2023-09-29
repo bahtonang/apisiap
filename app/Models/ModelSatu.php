@@ -13,26 +13,48 @@ class ModelSatu extends Model
     {
         $builder = $this->db->table('personal');
         $builder->select('pid,nama,gedung');
-        $builder->where(['pid'=>$pid,'password' => $pass]);
-        $result = $builder->get();
-        if (count($result->getResultArray()) == 1) {
-            return $result->getRowArray();
-        } else {
-            return false;
-        }
-    } 
-    public function loginModelasli($pid,$pass)
-    {
-        $builder = $this->db->table('personal');
-        $builder->select('pid,nama,alamat,tgllahir,kodesub,statusstaf,pass,namaibu');
         $builder->where(['pid'=>$pid,'pass' => $pass]);
-        $result = $builder->get();
+
+	    $result = $builder->get();
         if (count($result->getResultArray()) == 1) {
             return $result->getRowArray();
         } else {
             return false;
         }
-    } 
+    }
+
+
+    public function mekanik($gedung,$kodebagian)
+    {
+	    $builder = $this->db->table('personal');
+	    $builder->select('nama');
+	    $builder->where(['gedung'=>$gedung,'kodebagian'=>$kodebagian]);
+        $result = $builder->get();        
+	    if($result)
+	    {
+	        return $result->getResultArray();
+	    }
+	    else
+	    {
+	        return false;
+	    }
+
+    }
+
+    public function lokasi($gedung)
+    {
+        $builder = $this->db->table('lokasi');
+        $builder->select('nama');
+        $builder->where(['gedung'=>$gedung]);
+        $result = $builder->get();
+        if($result)
+        {
+            return $result->getResultArray();
+        }
+        else {
+            return false;
+        }
+    }
 
     public function versi()
     {
@@ -57,35 +79,6 @@ class ModelSatu extends Model
         return $this->db->affectedRows();
     }
 
-    public function personal($gedung,$statusstaf)
-    {
-        $builder = $this->db->table('personal');
-        $builder->select('pid,nama,gedung');
-        $builder->where(['gedung'=>$gedung,'statusstaf'=>$statusstaf]);
-        $result = $builder->get();
-        if($result)
-        {
-            return $result->getResultArray();
-        }
-        else {
-            return false;
-        }
-    }
-    public function lokasi($gedung)
-    {
-        $builder = $this->db->table('lokasi');
-        $builder->select('nama');
-        $builder->where(['gedung'=>$gedung]);
-        $result = $builder->get();
-        if($result)
-        {
-            return $result->getResultArray();
-        }
-        else {
-            return false;
-        }
-    }
-
     public function absen($pid,$tahun)
     {
         $builder = $this->db->table('absen');
@@ -99,13 +92,13 @@ class ModelSatu extends Model
         else {
             return false;
         }
-    } 
+    }
 
     public function info()
     {
         $builder = $this->db->table('informasi');
-        $builder->select('tgl,judul,isi,pembuat'); 
-        $builder->orderBy('id','DESC');     
+        $builder->select('tgl,judul,isi,pembuat');
+        $builder->orderBy('id','DESC');
         $result = $builder->get();
         if($result)
         {
@@ -114,7 +107,7 @@ class ModelSatu extends Model
         else {
             return false;
         }
-    }     
+    }
     public function gajiop($pid,$kodepr)
     {
         $builder = $this->db->table('rekapgajiview');
@@ -164,11 +157,15 @@ class ModelSatu extends Model
 
     public function cutistaf($pid)
     {
- 
-        $builder = $this->db->table('cutistaff');        
+
+	$bln = date("m");
+	$thn = date("Y");
+        $builder = $this->db->table('cutistaff');
         $builder->select('cutitahunan');
         $builder->where('pid',$pid);
-        $result = $builder->get();
+	$builder->where('bulan',$bln);
+	$builder->where('tahun',$thn); 
+ 	$result = $builder->get();
         if($result)
         {
             return $result->getRowArray();
@@ -180,6 +177,6 @@ class ModelSatu extends Model
     }
 
 
-   
+
 
 }

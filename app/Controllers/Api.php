@@ -105,70 +105,6 @@ class Api extends BaseController
         }
     }
 
-	public function getPersonal($gedung,$statusstaf)
-    {
-        try 
-        {
-            $model = new ModelSatu();
-            $data = $model->personal($gedung,$statusstaf);
-            if($data)
-            {
-                return $this->getResponse(
-                    [
-                        'status' => 'success',
-                        'data' => $data,
-                    ]
-                    ); 
-            } 
-            else
-            {
-                return $this->response->setStatusCode(404);
-            }
-
-        } catch(Exception $e)
-        {
-            return $this->getResponse(
-                [
-                    'status' => 'error',
-                    'message' => 'Personal not found',
-                ],
-                ResponseInterface::HTTP_NOT_FOUND
-            );
-        }
-
-    }
-    public function getLokasi($pid)
-    {
-        try 
-        {
-            $model = new ModelSatu();
-            $data = $model->lokasi($pid);
-            if($data)
-            {
-                return $this->getResponse(
-                    [
-                        'status' => 'success',
-                        'data' => $data,
-                    ]
-                    ); 
-            } 
-            else
-            {
-                return $this->response->setStatusCode(404);
-            }
-
-        } catch(Exception $e)
-        {
-            return $this->getResponse(
-                [
-                    'status' => 'error',
-                    'message' => 'Could not find Lokasi',
-                ],
-                ResponseInterface::HTTP_NOT_FOUND
-            );
-        }
-
-    }
     public function getAbsen($pid, $tahun)
     {
         try {
@@ -200,6 +136,36 @@ class Api extends BaseController
 
     }
 
+  public function getMekanik($gedung,$kodebagian)
+  {
+    try {
+
+        $model = new ModelSatu();
+        $data = $model->mekanik($gedung, $kodebagian);
+
+        if ($data) {
+
+            return $this->getResponse(
+                [
+                    'status' => 'success',
+                    'data' => $data,
+                ]
+            );
+
+        } else {
+            return $this->response->setStatusCode(404);
+        }
+    } catch (Exception $e) {
+        return $this->getResponse(
+            [
+                'status' => 'error',
+                'message' => 'Could not find absen',
+            ],
+            ResponseInterface::HTTP_NOT_FOUND
+        );
+    }
+
+  }
     public function getTcard($pid, $bulan, $tahun)
     {
         try {
@@ -546,7 +512,7 @@ class Api extends BaseController
 
                 $model = new ModelTiga();
                 $update = $model->cekout($pid);
-		        return $this->getResponse(['message'=>$update,'error'=>false]);
+		return $this->getResponse(['message'=>$update,'error'=>false]);
            }
         } catch (Exception $exception) {
             return $this
