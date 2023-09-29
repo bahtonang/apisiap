@@ -136,12 +136,12 @@ class Api extends BaseController
 
     }
 
-  public function getMekanik($gedung,$kodebagian)
+   public function getTeknisi($gedung,$kodebagian)
   {
     try {
 
         $model = new ModelSatu();
-        $data = $model->mekanik($gedung, $kodebagian);
+        $data = $model->teknisi($gedung, $kodebagian);
 
         if ($data) {
 
@@ -159,13 +159,110 @@ class Api extends BaseController
         return $this->getResponse(
             [
                 'status' => 'error',
-                'message' => 'Could not find absen',
+                'message' => 'Could not find Teknisi',
             ],
             ResponseInterface::HTTP_NOT_FOUND
         );
     }
 
   }
+
+  public function getLokasi($gedung)
+  {
+    try {
+
+        $model = new ModelSatu();
+        $data = $model->lokasi($gedung);
+
+        if ($data) {
+
+            return $this->getResponse(
+                [
+                    'status' => 'success',
+                    'data' => $data,
+                ]
+            );
+
+        } else {
+            return $this->response->setStatusCode(404);
+        }
+    } catch (Exception $e) {
+        return $this->getResponse(
+            [
+                'status' => 'error',
+                'message' => 'Could not find Lokasi',
+            ],
+            ResponseInterface::HTTP_NOT_FOUND
+        );
+    }
+
+  }
+
+  public function kirimtiket()
+    {
+        $kodebarang = $this->request->getVar('kodebarang');
+        $namabarang = $this->request->getVar('namabarang');
+        $keluhan = $this->request->getVar('keluhan');
+        $lokasi = $this->request->getVar('lokasi');
+        $pengirim = $this->request->getVar('pengirim');
+        $teknisi = $this->request->getVar('teknisi');
+        $kodebagian = $this->request->getVar('kodebagian');
+
+        try {
+
+            $rules = [
+                'namabarang' => 'required',
+                'keluhan' => 'required',
+                
+            ];
+
+            $errors = [
+                'keluhan' => [
+                    'validateUser' => 'Keluhan credentials provided',
+                ],
+            ];
+
+            $input = $this->getRequestInput($this->request);
+
+            if (!$this->validateRequest($input, $rules, $errors)) {
+                return $this
+                    ->getResponse(
+                        $this->validator->getErrors(),
+                        ResponseInterface::HTTP_BAD_REQUEST
+                    );
+            } else {
+
+                $model = new ModelSatu();
+                $update = $model->kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$pengirim,$teknisi,$kodebagian);
+                if ($update) {
+                    return $this
+                        ->getResponse(
+                            [
+                                'message' => 'Success',
+                            ]
+                        );
+
+                } else {
+                    return $this
+                        ->getResponse(
+                            [
+                                'message' => 'error',
+                            ]
+                        );
+                }
+            }
+        } catch (Exception $exception) {
+            return $this
+                ->getResponse(
+                    [
+                        'error' => true,
+                        'message' => $exception->getMessage(),
+                    ],
+
+                );
+        }
+    }
+
     public function getTcard($pid, $bulan, $tahun)
     {
         try {

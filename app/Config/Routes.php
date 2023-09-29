@@ -52,10 +52,11 @@ if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
 }
 
 //$routes->post('login', 'Otentikasi::getPersonal');
-$routes->get('mekanik/(:any)/(:any)','Api::getMekanik/$1/$2');
+$routes->get('teknisi/(:any)/(:any)','Api::getTeknisi/$1/$2');
 $routes->get('personal/(:any)','Api::getPersonal/$1/$2');
 $routes->get('lokasi/(:any)','Api::getLokasi/$1');
 
+$routes->post('kirimtiket', 'Api::kirimtiket');
 /*
 
 $routes->get('tcard/(:any)/(:num)/(:num)', 'Api::getTcard/$1/$2/$3');

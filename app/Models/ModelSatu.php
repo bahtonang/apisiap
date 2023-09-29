@@ -13,9 +13,8 @@ class ModelSatu extends Model
     {
         $builder = $this->db->table('personal');
         $builder->select('pid,nama,gedung');
-        $builder->where(['pid'=>$pid,'pass' => $pass]);
-
-	    $result = $builder->get();
+        $builder->where(['pid'=>$pid,'password' => $pass]);
+        $result = $builder->get();
         if (count($result->getResultArray()) == 1) {
             return $result->getRowArray();
         } else {
@@ -24,7 +23,7 @@ class ModelSatu extends Model
     }
 
 
-    public function mekanik($gedung,$kodebagian)
+    public function teknisi($gedung,$kodebagian)
     {
 	    $builder = $this->db->table('personal');
 	    $builder->select('nama');
@@ -67,6 +66,27 @@ class ModelSatu extends Model
             return false;
         }
 
+    }
+
+    public function kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$pengirim,$teknisi,$kodebagian)
+    {
+       $tgl = date("Y-m-d H:i:s");
+       $no = date("YmdHis");
+       $notiket = $kodebagian.$no;
+       $statustiket = 'antri';
+
+       $builder = $this->db->table('tickets');
+       $insert = $builder->insert(['notiket'=>$notiket,'tgl'=>$tgl,'kodebarang'=>$kodebarang,
+       'namabarang'=>$namabarang,'keluhan'=>$keluhan,'statustiket'=>$statustiket,'lokasi'=>$lokasi,'pengirim'=>$pengirim,'teknisi'=>$teknisi]);        
+
+       if($insert)
+       {
+            return true;
+       }
+       else
+       {
+            return false;
+       }
     }
 
     public function updatepass($pid,$ibu,$pass)
