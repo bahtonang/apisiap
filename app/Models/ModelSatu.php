@@ -68,16 +68,16 @@ class ModelSatu extends Model
 
     }
 
-    public function kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$pengirim,$teknisi,$kodebagian)
+    public function kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$gedung,$pengirim,$teknisi,$kodebagian)
     {
        $tgl = date("Y-m-d H:i:s");
        $no = date("YmdHis");
        $notiket = $kodebagian.$no;
-       $statustiket = 'antri';
+       $statustiket = 'ANTRI';
 
        $builder = $this->db->table('tickets');
-       $insert = $builder->insert(['notiket'=>$notiket,'tgl'=>$tgl,'kodebarang'=>$kodebarang,
-       'namabarang'=>$namabarang,'keluhan'=>$keluhan,'statustiket'=>$statustiket,'lokasi'=>$lokasi,'pengirim'=>$pengirim,'teknisi'=>$teknisi]);        
+       $insert = $builder->insert(['notiket'=>$notiket,'tgl'=>$tgl,'kodebarang'=>strtoupper($kodebarang),
+       'namabarang'=>strtoupper($namabarang),'keluhan'=>strtoupper($keluhan),'statustiket'=>$statustiket,'lokasi'=>strtoupper($lokasi),'gedung'=>$gedung,'pengirim'=>$pengirim,'teknisi'=>$teknisi]);        
 
        if($insert)
        {

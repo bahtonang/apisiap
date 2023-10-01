@@ -198,12 +198,13 @@ class Api extends BaseController
 
   }
 
-  public function kirimtiket()
+  public function kirimTiket()
     {
         $kodebarang = $this->request->getVar('kodebarang');
         $namabarang = $this->request->getVar('namabarang');
         $keluhan = $this->request->getVar('keluhan');
         $lokasi = $this->request->getVar('lokasi');
+		$gedung = $this->request->getVar('gedung');
         $pengirim = $this->request->getVar('pengirim');
         $teknisi = $this->request->getVar('teknisi');
         $kodebagian = $this->request->getVar('kodebagian');
@@ -233,8 +234,8 @@ class Api extends BaseController
             } else {
 
                 $model = new ModelSatu();
-                $update = $model->kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$pengirim,$teknisi,$kodebagian);
-                if ($update) {
+                $save = $model->kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$gedung,$pengirim,$teknisi,$kodebagian);
+                if ($save) {
                     return $this
                         ->getResponse(
                             [
