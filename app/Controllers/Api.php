@@ -264,19 +264,19 @@ class Api extends BaseController
         }
     }
 
-    public function getTcard($pid, $bulan, $tahun)
+    public function getTiket($gedung)
     {
         try {
 
-            $model = new ModelTiga();
-            $client = $model->tcardModel($pid, $bulan, $tahun);
+            $model = new ModelSatu();
+            $tiket = $model->tiket($gedung);
 
-            if ($client) {
+            if ($tiket) {
 
                 return $this->getResponse(
                     [
                         'status' => 'success',
-                        'data' => $client,
+                        'data' => $tiket,
                     ]
                 );
 
@@ -288,7 +288,7 @@ class Api extends BaseController
             return $this->getResponse(
                 [
                     'status' => 'error',
-                    'message' => 'Could not find timecard',
+                    'message' => 'Could not find tiket',
                 ],
                 ResponseInterface::HTTP_NOT_FOUND
             );

@@ -55,8 +55,10 @@ if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
 $routes->get('teknisi/(:any)/(:any)','Api::getTeknisi/$1/$2');
 $routes->get('personal/(:any)','Api::getPersonal/$1/$2');
 $routes->get('lokasi/(:any)','Api::getLokasi/$1');
+$routes->get('tiket/(:any)', 'Api::getTiket/$1');
 
 $routes->post('kirimtiket', 'Api::kirimTiket');
+
 /*
 
 $routes->get('tcard/(:any)/(:num)/(:num)', 'Api::getTcard/$1/$2/$3');

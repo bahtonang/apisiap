@@ -89,6 +89,21 @@ class ModelSatu extends Model
        }
     }
 
+    public function tiket($gedung)
+    {
+        $builder = $this->db->table('tickets');
+        $builder->select('*');
+        $builder->where(['gedung'=>$gedung]);
+        $result = $builder->get();
+        if($result)
+        {
+            return $result->getResultArray();
+        }
+        else {
+            return false;
+        }
+    }
+
     public function updatepass($pid,$ibu,$pass)
     {
         $builder = $this->db->table('personal');
