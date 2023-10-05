@@ -37,16 +37,19 @@ class Filters extends BaseConfig
 
 	// Mematikan JWT disini
 	public $filters = [
-        'otentikasi' => [
-            'before' => [
-				
-			   'absen/*',
-			   'gajiop/*',
-			   'info/*',
-			   'infostaf/*',
-			   'cutistaf/*',
-			   'saran/*',
-			   'gajistaf/*',			
+        	'otentikasi' => [
+        	'before' => [
+			'teknisi/*',
+			'personal/*',
+			'lokasi/*',
+			'tiket/*',
+			'absen/*',
+			'gajiop/*',
+			'info/*',
+			'infostaf/*',
+			'cutistaf/*',
+			'saran/*',
+			'gajistaf/*',			
             ],
         ]
     ];
