@@ -26,7 +26,7 @@ class ModelSatu extends Model
     public function teknisi($gedung,$kodebagian)
     {
 	    $builder = $this->db->table('personal');
-	    $builder->select('nama','hp');
+	    $builder->select('nama,hp');
 	    $builder->where(['gedung'=>$gedung,'kodebagian'=>$kodebagian]);
         $result = $builder->get();        
 	    if($result)
