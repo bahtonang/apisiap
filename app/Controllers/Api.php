@@ -136,7 +136,7 @@ class Api extends BaseController
 
     }
 
-   public function getTeknisi($gedung,$kodebagian)
+  public function getTeknisi($gedung,$kodebagian)
   {
     try {
 
@@ -293,6 +293,37 @@ class Api extends BaseController
                 ResponseInterface::HTTP_NOT_FOUND
             );
         }
+    }
+
+    public function getOnesend()
+    {
+        try {
+
+            $model = new ModelSatu();
+            $sender = $model->onesend();
+
+            if ($sender) {
+
+                return $this->getResponse(
+                    [
+                        'status' => 'success',
+                        'data' => $sender,
+                    ]
+                );
+
+            } else {
+                return $this->response->setStatusCode(404);
+            }
+        } catch (Exception $e) {
+            return $this->getResponse(
+                [
+                    'status' => 'error',
+                    'message' => 'Could not find Onesend',
+                ],
+                ResponseInterface::HTTP_NOT_FOUND
+            );
+        }
+
     }
 
     public function getInfo()

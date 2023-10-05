@@ -26,7 +26,7 @@ class ModelSatu extends Model
     public function teknisi($gedung,$kodebagian)
     {
 	    $builder = $this->db->table('personal');
-	    $builder->select('nama');
+	    $builder->select('nama','hp');
 	    $builder->where(['gedung'=>$gedung,'kodebagian'=>$kodebagian]);
         $result = $builder->get();        
 	    if($result)
@@ -102,6 +102,19 @@ class ModelSatu extends Model
         else {
             return false;
         }
+    }
+
+    public function onesend()
+    {
+        $builder = $this->db->table('pengirim');
+        $builder->select('alamat,rahasia');
+        $result = $builder->get();
+        if (count($result->getResultArray()) == 1) {
+            return $result->getRowArray();
+        } else {
+            return false;
+        }
+
     }
 
     public function updatepass($pid,$ibu,$pass)

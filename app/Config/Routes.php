@@ -56,6 +56,7 @@ $routes->get('teknisi/(:any)/(:any)','Api::getTeknisi/$1/$2');
 $routes->get('personal/(:any)','Api::getPersonal/$1/$2');
 $routes->get('lokasi/(:any)','Api::getLokasi/$1');
 $routes->get('tiket/(:any)', 'Api::getTiket/$1');
+$routes->get('onesend', 'Api::getOnesend');
 
 $routes->post('kirimtiket', 'Api::kirimTiket');
 
