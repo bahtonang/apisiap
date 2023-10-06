@@ -206,8 +206,8 @@ class Api extends BaseController
         $lokasi = $this->request->getVar('lokasi');
 		$gedung = $this->request->getVar('gedung');
         $pengirim = $this->request->getVar('pengirim');
-        $teknisi = $this->request->getVar('teknisi');
-        $kodebagian = $this->request->getVar('kodebagian');
+        $teknisi = $this->request->getVar('teknisi'); 
+        $statkirim = $this->request->getVar('statuskirim');
 
         try {
 
@@ -234,7 +234,7 @@ class Api extends BaseController
             } else {
 
                 $model = new ModelSatu();
-                $save = $model->kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$gedung,$pengirim,$teknisi,$kodebagian);
+                $save = $model->kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$gedung,$pengirim,$teknisi,$statkirim);
                 if ($save) {
                     return $this
                         ->getResponse(
