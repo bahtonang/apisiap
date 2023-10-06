@@ -43,6 +43,7 @@ class Filters extends BaseConfig
 			'personal/*',
 			'lokasi/*',
 			'tiket/*',
+			'mytiket/*',
 			'onesend',
 			'absen/*',
 			'gajiop/*',

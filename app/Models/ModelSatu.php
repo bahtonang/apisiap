@@ -26,7 +26,7 @@ class ModelSatu extends Model
     public function teknisi($gedung,$kodebagian)
     {
 	    $builder = $this->db->table('personal');
-	    $builder->select('nama,hp');
+	    $builder->select('pid,nama,hp');
 	    $builder->where(['gedung'=>$gedung,'kodebagian'=>$kodebagian]);
         $result = $builder->get();        
 	    if($result)
@@ -71,19 +71,17 @@ class ModelSatu extends Model
     public function kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$gedung,$pengirim,$teknisi,$statkirim)
     {
        $tgl = date("Y-m-d H:i:s");
-       if($statkirim=="SEND")
+       if($statkirim=="SENT")
        {
-            $statuskirim = 'SEND';
+            $statuskirim = 'SENT';
        }
        else 
        {
             $statuskirim = 'ANTRI';
        }
-    
-
        $builder = $this->db->table('tickets');
        $insert = $builder->insert(['tgl'=>$tgl,'kodebarang'=>strtoupper($kodebarang),
-       'namabarang'=>strtoupper($namabarang),'keluhan'=>strtoupper($keluhan),'statuskirim'=>$statuskirim,'lokasi'=>strtoupper($lokasi),'gedung'=>$gedung,'pengirim'=>$pengirim,'teknisi'=>$teknisi]);        
+       'namabarang'=>strtoupper($namabarang),'keluhan'=>strtoupper($keluhan),'statuskirim'=>$statuskirim,'lokasi'=>strtoupper($lokasi),'gedung'=>$gedung,'pengirim'=>$pengirim,'teknisi'=>$teknisi,'baca'=>'F']);        
 
        if($insert)
        {
@@ -100,6 +98,22 @@ class ModelSatu extends Model
         $builder = $this->db->table('tickets');
         $builder->select('*');
         $builder->where(['gedung'=>$gedung]);
+        $result = $builder->get();
+        if($result)
+        {
+            return $result->getResultArray();
+        }
+        else {
+            return false;
+        }
+    }
+	
+	public function mytiket($pid)
+    {
+        $builder = $this->db->table('tickets');
+        $builder->select('notiket,nama,tgl,namabarang,keluhan,lokasi,pengirim,baca,statustiket,mulai,selesai');
+        $builder->join('personal','teknisi=pid','left');
+        $builder->where(['pid'=>$pid,'statusstaf' => 'T']);
         $result = $builder->get();
         if($result)
         {

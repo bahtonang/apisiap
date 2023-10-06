@@ -326,6 +326,36 @@ class Api extends BaseController
 
     }
 
+	public function myTiket($pid)
+    {
+        try {
+
+            $model = new ModelSatu();
+            $data = $model->mytiket($pid);
+
+            if ($data) {
+
+                return $this->getResponse(
+                    [
+                        'status' => 'success',
+                        'data' => $data,
+                    ]
+                );
+
+            } else {
+                return $this->getResponse(['error' => true, 'message' => 'Could not find MyTiket'])->setStatusCode(404);
+            }
+        } catch (Exception $e) {
+            return $this->getResponse(
+                [
+                    'status' => 'error',
+                    'message' => 'Could not find MyTiket',
+                ],
+                ResponseInterface::HTTP_NOT_FOUND
+            );
+        }
+
+    }
     public function getInfo()
     {
         try {
