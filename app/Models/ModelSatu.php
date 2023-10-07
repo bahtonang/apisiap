@@ -12,7 +12,7 @@ class ModelSatu extends Model
     public function loginModel($pid,$pass)
     {
         $builder = $this->db->table('personal');
-        $builder->select('pid,nama,gedung');
+        $builder->select('pid,nama,gedung,kodebagian');
         $builder->where(['pid'=>$pid,'password' => $pass]);
         $result = $builder->get();
         if (count($result->getResultArray()) == 1) {
@@ -123,6 +123,22 @@ class ModelSatu extends Model
             return false;
         }
     }
+	
+	public function tiketaction($no)
+    {
+        $builder = $this->db->table('tickets');
+        $builder->select('*');
+        $builder->where(['notiket'=>$no]);
+        $result = $builder->get();
+        if($result)
+        {
+            return $result->getRowArray();
+        }
+        else {
+            return false;
+        }
+    }
+	
 
     public function onesend()
     {

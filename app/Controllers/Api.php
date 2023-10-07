@@ -356,6 +356,38 @@ class Api extends BaseController
         }
 
     }
+	
+	public function getTiketaction($no)
+	{
+    try {
+
+        $model = new ModelSatu();
+        $data = $model->tiketaction($no);
+
+        if ($data) {
+
+            return $this->getResponse(
+                [
+                    'status' => 'success',
+                    'data' => $data,
+                ]
+            );
+
+        } else {
+            return $this->response->setStatusCode(404);
+        }
+    } catch (Exception $e) {
+        return $this->getResponse(
+            [
+                'status' => 'error',
+                'message' => 'Could not find ticket detail',
+            ],
+            ResponseInterface::HTTP_NOT_FOUND
+        );
+    }
+
+  }
+	
     public function getInfo()
     {
         try {
@@ -386,6 +418,9 @@ class Api extends BaseController
         }
     }
 
+
+	
+  
     public function getInfostaf()
     {
         try {
