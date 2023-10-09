@@ -133,6 +133,7 @@ class ModelSatu extends Model
         if($result)
         {
             return $result->getRowArray();
+		
         }
         else {
             return false;
