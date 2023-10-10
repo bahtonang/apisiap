@@ -61,7 +61,7 @@ $routes->get('mytiket/(:any)', 'Api::myTiket/$1');
 $routes->get('tiketaction/(:any)', 'Api::getTiketAction/$1');
 
 $routes->post('kirimtiket', 'Api::kirimTiket');
-
+$routes->put('tiketstart', 'Api::tiketStart');
 /*
 
 $routes->get('tcard/(:any)/(:num)/(:num)', 'Api::getTcard/$1/$2/$3');

@@ -81,7 +81,7 @@ class ModelSatu extends Model
        }
        $builder = $this->db->table('tickets');
        $insert = $builder->insert(['tgl'=>$tgl,'kodebarang'=>strtoupper($kodebarang),
-       'namabarang'=>strtoupper($namabarang),'keluhan'=>strtoupper($keluhan),'statuskirim'=>$statuskirim,'lokasi'=>strtoupper($lokasi),'gedung'=>$gedung,'pengirim'=>$pengirim,'teknisi'=>$teknisi,'baca'=>'F']);        
+       'namabarang'=>strtoupper($namabarang),'keluhan'=>strtoupper($keluhan),'statuskirim'=>$statuskirim,'lokasi'=>strtoupper($lokasi),'gedung'=>$gedung,'pengirim'=>$pengirim,'teknisi'=>$teknisi,'statustiket'=>'OPEN','baca'=>'F']);        
 
        if($insert)
        {
@@ -127,7 +127,8 @@ class ModelSatu extends Model
 	public function tiketaction($no)
     {
         $builder = $this->db->table('tickets');
-        $builder->select('*');
+        $builder->select('notiket,namabarang,lokasi,keluhan,nama,bagian,statustiket');
+		$builder->join('personal','pid=pengirim','left');
         $builder->where(['notiket'=>$no]);
         $result = $builder->get();
         if($result)
@@ -154,12 +155,13 @@ class ModelSatu extends Model
 
     }
 
-    public function updatepass($pid,$ibu,$pass)
+    public function tiketstart($no)
     {
-        $builder = $this->db->table('personal');
-        $result = $builder->set('pass',$pass);
-        $builder->where('pid',$pid);
-	    $builder->where('namaibu',$ibu);
+		$skrg = date('Y-m-d H:i:s');
+        $builder = $this->db->table('tickets');
+        $result = $builder->set('mulai',$skrg);
+        $result = $builder->set('statustiket','START');
+        $builder->where('notiket',$no);	
         $builder->update();
         return $this->db->affectedRows();
     }

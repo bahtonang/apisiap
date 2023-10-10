@@ -387,6 +387,60 @@ class Api extends BaseController
     }
 
   }
+
+	public function tiketStart()
+    {
+        $no = $this->request->getVar('nomor');
+
+        try {
+
+            $rules = [
+                'nomor' => 'required',
+
+            ];
+
+            $input = $this->getRequestInput($this->request);
+
+            if (!$this->validateRequest($input, $rules)) {
+                return $this
+                    ->getResponse(
+                        $this->validator->getErrors(),
+                        ResponseInterface::HTTP_BAD_REQUEST
+                    );
+            } else {
+
+                $model = new ModelSatu();
+                $update = $model->tiketstart($no);
+                if ($update>0) {
+                    return $this
+                        ->getResponse(
+                            [
+				'error' => false,
+                                'message' => 'Success',
+                            ]
+                        );
+
+                } else {
+                    return $this
+                        ->getResponse(
+                            [
+				'error' => true,
+                                'message' => 'error',
+                            ]
+                        );
+                }
+            }
+        } catch (Exception $exception) {
+            return $this
+                ->getResponse(
+                    [
+                        'error' => true,
+                        'message' => $exception->getMessage(),
+                    ],
+
+                );
+        }
+    }
 	
     public function getInfo()
     {
