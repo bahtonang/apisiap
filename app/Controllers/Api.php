@@ -214,7 +214,7 @@ class Api extends BaseController
             $rules = [
                 'namabarang' => 'required',
                 'keluhan' => 'required',
-                
+
             ];
 
             $errors = [
@@ -326,7 +326,7 @@ class Api extends BaseController
 
     }
 
-	public function myTiket($pid)
+    public function myTiket($pid)
     {
         try {
 
@@ -356,13 +356,13 @@ class Api extends BaseController
         }
 
     }
-	
-	public function getTiketaction($no)
-	{
-    try {
 
-        $model = new ModelSatu();
-        $data = $model->tiketaction($no);
+    public function getTiketaction($no)
+    {
+    	try {
+
+         $model = new ModelSatu();
+         $data = $model->tiketaction($no);
 
         if ($data) {
 
@@ -388,7 +388,7 @@ class Api extends BaseController
 
   }
 
-	public function tiketStart()
+    public function tiketStart()
     {
         $no = $this->request->getVar('nomor');
 
@@ -441,7 +441,70 @@ class Api extends BaseController
                 );
         }
     }
-	
+
+
+    public function smyTiket($pid)
+    {
+        try {
+
+            $model = new ModelSatu();
+            $data = $model->mytiket($pid);
+
+            if ($data) {
+
+                return $this->getResponse(
+                    [
+                        'status' => 'success',
+                        'data' => $data,
+                    ]
+                );
+
+            } else {
+                return $this->getResponse(['error' => true, 'message' => 'Could not find MyTiket'])->setStatusCode(404);
+            }
+        } catch (Exception $e) {
+            return $this->getResponse(
+                [
+                    'status' => 'error',
+                    'message' => 'Could not find MyTiket',
+                ],
+                ResponseInterface::HTTP_NOT_FOUND
+            );
+        }
+
+    }
+
+    public function getTiketOpen($pid)
+    {
+        try {
+
+            $model = new ModelSatu();
+            $data = $model->tiketopen($pid);
+
+            if ($data) {
+
+                return $this->getResponse(
+                    [
+                        'status' => 'success',
+                        'data' => $data,
+                    ]
+                );
+
+            } else {
+                return $this->getResponse(['error' => true, 'message' => 'Could not find Tiket Open'])->setStatusCode(404);
+            }
+        } catch (Exception $e) {
+            return $this->getResponse(
+                [
+                    'status' => 'error',
+                    'message' => 'Could not find Open Tiket',
+                ],
+                ResponseInterface::HTTP_NOT_FOUND
+            );
+        }
+
+    }
+
     public function getInfo()
     {
         try {

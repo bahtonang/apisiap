@@ -59,6 +59,7 @@ $routes->get('tiket/(:any)', 'Api::getTiket/$1');
 $routes->get('onesend', 'Api::getOnesend');
 $routes->get('mytiket/(:any)', 'Api::myTiket/$1');
 $routes->get('tiketaction/(:any)', 'Api::getTiketAction/$1');
+$routes->get('tiketopen/(:any)', 'Api::getTiketOpen/$1');
 
 $routes->post('kirimtiket', 'Api::kirimTiket');
 $routes->put('tiketstart', 'Api::tiketStart');

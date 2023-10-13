@@ -28,7 +28,7 @@ class ModelSatu extends Model
 	    $builder = $this->db->table('personal');
 	    $builder->select('pid,nama,hp');
 	    $builder->where(['gedung'=>$gedung,'kodebagian'=>$kodebagian]);
-        $result = $builder->get();        
+       	    $result = $builder->get();
 	    if($result)
 	    {
 	        return $result->getResultArray();
@@ -70,6 +70,8 @@ class ModelSatu extends Model
 
     public function kirimtiket($kodebarang,$namabarang,$keluhan,$lokasi,$gedung,$pengirim,$teknisi,$statkirim)
     {
+       $jam = date('His');
+       $validasi = $namabarang.'-'.$lokasi.'-'.$gedung.'-'.$pengirim.'-'.$jam; 
        $tgl = date("Y-m-d H:i:s");
        if($statkirim=="SENT")
        {
@@ -81,7 +83,7 @@ class ModelSatu extends Model
        }
        $builder = $this->db->table('tickets');
        $insert = $builder->insert(['tgl'=>$tgl,'kodebarang'=>strtoupper($kodebarang),
-       'namabarang'=>strtoupper($namabarang),'keluhan'=>strtoupper($keluhan),'statuskirim'=>$statuskirim,'lokasi'=>strtoupper($lokasi),'gedung'=>$gedung,'pengirim'=>$pengirim,'teknisi'=>$teknisi,'statustiket'=>'OPEN','baca'=>'F']);        
+       'namabarang'=>strtoupper($namabarang),'keluhan'=>strtoupper($keluhan),'statuskirim'=>$statuskirim,'lokasi'=>strtoupper($lokasi),'gedung'=>$gedung,'pengirim'=>$pengirim,'teknisi'=>$teknisi,'statustiket'=>'OPEN','baca'=>'F','validasi'=>strrev($validasi)]);
 
        if($insert)
        {
@@ -107,8 +109,8 @@ class ModelSatu extends Model
             return false;
         }
     }
-	
-	public function mytiket($pid)
+
+    public function mytiket($pid)
     {
         $builder = $this->db->table('tickets');
         $builder->select('notiket,nama,tgl,namabarang,keluhan,lokasi,pengirim,baca,statustiket,mulai,selesai');
@@ -123,24 +125,42 @@ class ModelSatu extends Model
             return false;
         }
     }
-	
-	public function tiketaction($no)
+
+    public function tiketaction($no)
     {
         $builder = $this->db->table('tickets');
         $builder->select('notiket,namabarang,lokasi,keluhan,nama,bagian,statustiket');
-		$builder->join('personal','pid=pengirim','left');
+	$builder->join('personal','pid=pengirim','left');
         $builder->where(['notiket'=>$no]);
         $result = $builder->get();
         if($result)
         {
             return $result->getRowArray();
-		
+	  //return $result->getResultArray();
         }
         else {
             return false;
         }
     }
-	
+
+    public function tiketopen($pid)
+    {
+
+        $builder = $this->db->table('tickets');
+        $builder->select('notiket,nama,tgl,namabarang,keluhan,lokasi,pengirim,baca,statustiket,mulai,selesai');
+        $builder->join('personal','pengirim=pid','left');
+        $builder->where(['pid'=>$pid,'statustiket' => 'OPEN']);
+        $result = $builder->get();
+        if($result)
+        {
+            return $result->getResultArray();
+        }
+        else {
+            return false;
+        }
+
+    }
+
 
     public function onesend()
     {
